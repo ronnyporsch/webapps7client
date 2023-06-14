@@ -15,6 +15,14 @@ dancetastic.com
 ### App Description
 The purpose of the app is to provide both students and teachers an easy access to all classes and parties that are offered by the studio. They should be able to sign up for events directly from the app. The app should have two roles for different users - teacher and student. Both of which should have different rights. For example, a teacher is able to create new events, while a student is not. The app should be backed by a database that is used to persistently save the data of users and events. 
 
+### Design Information Model
+
+![image](https://github.com/ronnyporsch/webapps7client/assets/47381380/9c4106ff-0886-4ae5-8794-31ac13304a54)
+
+### Domain Information Model
+
+
+
 ### Information Management Tasks
 + Enter the data of a new user: userID, name, address, birthdate
 + Assign role to user: teacher or student
