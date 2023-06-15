@@ -21,7 +21,7 @@ The purpose of the app is to provide both students and teachers an easy access t
 
 ### Domain Information Model
 
-![image](https://github.com/ronnyporsch/webapps7client/assets/47381380/988d402a-72cb-4821-96b9-25b350ef4d9a)
+![image](domain_information_model.png)
 
 
 
