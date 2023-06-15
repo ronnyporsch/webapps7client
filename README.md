@@ -21,7 +21,6 @@ The purpose of the app is to provide both students and teachers an easy access t
 
 ### Domain Information Model
 
-![image](domain_information_model.png)
 
 
 
