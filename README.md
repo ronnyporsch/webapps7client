@@ -21,7 +21,7 @@ The purpose of the app is to provide both students and teachers an easy access t
 
 ### Design Information Model
 
-![image](https://github.com/ronnyporsch/webapps7client/assets/47381380/9c4106ff-0886-4ae5-8794-31ac13304a54)
+![Design Information model](uml/design_information_model.png?raw=true)
 
 
 ### Information Management Tasks
@@ -39,3 +39,11 @@ The purpose of the app is to provide both students and teachers an easy access t
 + Remove user from an event
 + View all users of an event
 
+
+### Developer 
+- @[PramitKumar27](https://github.com/PramitKumar27)
+    - Assignment 7B:
+        - 
+- @[ruehsflo](https://github.com/ruehsflo)
+    - Assignment 7B:
+        -
