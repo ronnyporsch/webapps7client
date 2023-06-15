@@ -25,19 +25,27 @@ The purpose of the app is to provide both students and teachers an easy access t
 
 
 ### Information Management Tasks
-+ Enter the data of a new user: userID, name, address, birthdate
-+ Assign role to user: teacher or student
-+ Update the data of a user: allow updating all data items except the userID
-+ Delete a user: remove user from the database
-+ View all users: list all users (accessible only to teachers)
-+ View all teachers: list all teachers
-+ Enter data for a new event: eventID, name, description, type of event (class or party), dance style, level (1-5), teacher, max number of people, day, time (teachers only)
-+ Update data of an event: allow updating everything except the eventID (teachers only)
-+ Delete an event: remove an event from the database
-+ View all events: list all events and their properties
-+ Add user to an event
-+ Remove user from an event
-+ View all users of an event
+
+_As an app user, I would like to..._
+| # | Original | Improved |
+| --- | ------------------------------------------------------ | ----------------------------------------------------------------------- |
+| 1 | Enter the data of a new user: userID, name, address, birthdate | Enter the data of a new user: userID, firstName, lastName, address, birthdate |
+| 2 | Assign role to user: teacher or student | Assign a role when creating the user. A user can be either a teacher or a student  |
+| 3 | Update the data of a user: allow updating all data items except the userID |  Update the data of a user: allow updating all data items except the userID |
+| 4 | Delete a user: remove user from the database | Delete a user |
+| 5 | View all teachers: list all teachers | View all teachers: list all teachers |
+| 6 | View all events: list all events and their properties | UView all events: list all events and their properties |
+| 7 | View all users of an event | View all users of an event |
+
+_As a teacher, I would like to ..._
+| # | Original | Improved |
+| --- | ------------------------------------------------------ | ----------------------------------------------------------------------- |
+| 8 | View all users: list all users |  View all users from the database |
+| 9 | Enter data for a new event: eventID, name, description, type of event (class or party), dance style, level (1-5), teacher, max number of people, day, time |Enter data for a new event: eventID, name, description, type of event (class or party), dance style, level (1-5), teacher, max number of people, datetime |
+| 10 | Update data of an event: allow updating everything except the eventID | Update data of an event: allow updating everything except the eventID |
+| 11 | Delete an event: remove an event from the database | Delete an event: remove an event from the database |
+| 12 | Add user to an event | Add user to an event |
+| 13 | Remove user from an event | Remove user from an event |
 
 
 ### Developer 
