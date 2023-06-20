@@ -51,7 +51,11 @@ _As a teacher, I would like to ..._
 ### Developer 
 - @[PramitKumar27](https://github.com/PramitKumar27)
     - Assignment 7B:
-        - 
+        - created some issues in github
+        - domain information model
+    - Assignment 7C-1:
+        - setting up database
 - @[ruehsflo](https://github.com/ruehsflo)
     - Assignment 7B:
-        -
+        - created some issues in github
+        - design information model
