@@ -59,4 +59,26 @@ import { collection as fsColl, deleteDoc, doc as fsDoc, getDoc, getDocs, setDoc,
     return eventRecs;
   }
 
+  Event.update = async function (slots) {
+    const updSlots = {};
+    // retrieve up-to-date book record
+    const eventRec = await Event.retrieve( slots.eventID);
+    // convert from string to integer
+    if (slots.maxParticipants) slots.maxParticipants = parseInt( slots.maxParticipants);
+    // update only those slots that have changed
+    if (eventRec.name !== slots.name) updSlots.name = slots.name;
+    if (eventRec.style !== slots.style) updSlots.style = slots.style;
+    if (eventRec.date !== slots.date) updSlots.date = slots.date;
+    if (eventRec.description !== slots.description) updSlots.description = slots.description;
+    if (eventRec.maxParticipants !== slots.maxParticipants) updSlots.maxParticipants = slots.maxParticipants;
+    if (Object.keys( updSlots).length > 0) {
+        try {
+        const eventDocRef = fsDoc( fsDb, "events", slots.eventID);
+        await updateDoc( eventDocRef, updSlots);
+        console.log(`Event record ${slots.eventID} modified.`);
+        } catch( e) {
+        console.error(`Error when updating event record: ${e}`);
+        }
+    } 
+  }
   export default Event;
