@@ -53,9 +53,18 @@ _As a teacher, I would like to ..._
     - Assignment 7B:
         - created some issues in github
         - domain information model
+    - Assignment 7C-1:
+        - setting up database
+        - create use case
+        - delete use case
+        - generate test data
+        - clear data base
 - @[ruehsflo](https://github.com/ruehsflo)
     - Assignment 7B:
         - created some issues in github
         - design information model
     - Assignment 7C-1:
         - setting up database
+        - constructor for model
+        - retrieve use case
+        - update use case
