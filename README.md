@@ -54,7 +54,6 @@ _As a teacher, I would like to ..._
         - created some issues in github
         - domain information model
     - Assignment 7C-1:
-        - setting up database
         - create use case
         - delete use case
         - generate test data
