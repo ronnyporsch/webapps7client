@@ -28,11 +28,11 @@ import { collection as fsColl, deleteDoc, doc as fsDoc, getDoc, getDocs, setDoc,
 
 
   /**
- * Create a Firestore document in the Firestore collection "books"
+
  * @param slots: {object}
  * @returns {Promise<void>}
  */
-Movie.add = async function (slots) {
+Event.add = async function (slots) {
   const eventsCollRef = fsColl( fsDb, "events"),
     eventDocRef = fsDoc (eventsCollRef, slots.eventID);
   slots.maxParticipants = parseInt( slots.maxParticipants);  
@@ -80,7 +80,7 @@ Movie.add = async function (slots) {
 
   Event.update = async function (slots) {
     const updSlots = {};
-    // retrieve up-to-date book record
+   
     const eventRec = await Event.retrieve( slots.eventID);
     // convert from string to integer
     if (slots.maxParticipants) slots.maxParticipants = parseInt( slots.maxParticipants);
@@ -105,7 +105,7 @@ Movie.add = async function (slots) {
  * @param eventID: {string}
  * @returns {Promise<void>}
  */
-Movie.destroy = async function (eventID) {
+Event.destroy = async function (eventID) {
   try {
     await deleteDoc( fsDoc( fsDb, "events", eventID));
     console.log(`Event record ${eventID} deleted.`);
@@ -145,7 +145,7 @@ Event.generateTestData = async function () {
  */
 Event.clearData = async function () {
   if (confirm("Do you really want to delete all records?")) {
-    // retrieve all book documents from Firestore
+
     const eventRecs = await Event.retrieveAll();
     // delete all documents
     await Promise.all( eventRecs.map( d => Event.destroy( d.eventID)));
