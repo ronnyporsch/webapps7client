@@ -39,7 +39,7 @@ updateButton.addEventListener("click", async function (){
     const slots = {
         eventID: formEl["eventID"].value,
         name: formEl["name"].value,
-        style: formEl["style"].value = eventRec.style,
+        style: formEl["style"].value,
         date: formEl["date"].value,
         description:  formEl["description"].value,
         maxParticipants:  formEl["maxParticipants"].value

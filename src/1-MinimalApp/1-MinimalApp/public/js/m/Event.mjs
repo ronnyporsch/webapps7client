@@ -33,6 +33,7 @@ import { collection as fsColl, deleteDoc, doc as fsDoc, getDoc, getDocs, setDoc,
  * @returns {Promise<void>}
  */
 Event.add = async function (slots) {
+  
   const eventsCollRef = fsColl( fsDb, "events"),
     eventDocRef = fsDoc (eventsCollRef, slots.eventID);
   slots.maxParticipants = parseInt( slots.maxParticipants);  
@@ -120,7 +121,7 @@ Event.destroy = async function (eventID) {
 Event.generateTestData = async function () {
   let eventRecs = [
     {
-      eventID: 1,
+      eventID: "1",
       name: "Salsa Saturdays",
       style:"Salsa",
       date:"2023-06-01",
@@ -128,7 +129,7 @@ Event.generateTestData = async function () {
       maxParticipants:20,
     },
     {
-      eventID: 2,
+      eventID: "2",
       name: "Bachata with bachelors",
       style:"Bachata",
       date:"2023-06-10",
