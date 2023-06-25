@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Minimal Web App with JS and Firebase</title>
+  <meta name="description" content="A minimal effort web app with plain JS + Firebase." />
+  <link rel="icon" href="favicon.ico" />
+  <script type="module">
+    import Event from "./js/m/Event.mjs";
+
+    window.addEventListener("load", function () {
+      const clearButton = document.getElementById("clearData"),
+        generateTestDataButtons = document.querySelectorAll("button.generateTestData");
+      // set event handlers for the buttons "clearData" and "generateTestData"
+      clearButton.addEventListener("click", Event.clearData);
+      for (const btn of generateTestDataButtons) {
+        btn.addEventListener("click", Event.generateTestData);
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <main>
+
+    <menu>
+      <li><a href="createEvent.html">Create</a> a new Event record</li>
+      <li><a href="retrieveAndListAllEvents.html">Retrieve</a> and list all Event records</li>
+      <li><a href="updateEvent.html">Update</a> a Event record</li>
+      <li><a href="deleteEvent.html">Delete</a> a Event record</li>
+      <li style="margin-top: 1em"><button class="generateTestData" type="button">Generate test data</button></li>
+      <li><button id="clearData" type="button">Clear database</button></li>
+    </menu>
+  </main>
+
+</body>
+
+</html>
