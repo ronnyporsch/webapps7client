@@ -13,6 +13,7 @@ import { collection as fsColl, deleteDoc, doc as fsDoc, getDoc, getDocs, setDoc,
    * 
    * TODO: change style to enumeration, add participants
    */
+
   class Event {
 
     constructor({eventID, name, style, date, description, maxParticipants}){
@@ -25,12 +26,30 @@ import { collection as fsColl, deleteDoc, doc as fsDoc, getDoc, getDocs, setDoc,
     }
   }
 
+
+  /**
+ * Create a Firestore document in the Firestore collection "books"
+ * @param slots: {object}
+ * @returns {Promise<void>}
+ */
+Movie.add = async function (slots) {
+  const eventsCollRef = fsColl( fsDb, "events"),
+    eventDocRef = fsDoc (eventsCollRef, slots.eventID);
+  slots.maxParticipants = parseInt( slots.maxParticipants);  
+  try {
+    await setDoc( eventDocRef, slots);
+    console.log(`Event record ${slots.eventID} created.`);
+  } catch( e) {
+    console.error(`Error when adding event record: ${e}`);
+  }
+};
   /**
    * loads an event from firestore
    * 
-   * @param eventID
+   * @param eventID 
    * @returns {Promise<*>} eventRecord: {array}
    */
+
   Event.retrieve = async function (eventID){
     let eventDocSn = null;
     try {
@@ -81,4 +100,59 @@ import { collection as fsColl, deleteDoc, doc as fsDoc, getDoc, getDocs, setDoc,
         }
     } 
   }
+
+  /**
+ * @param eventID: {string}
+ * @returns {Promise<void>}
+ */
+Movie.destroy = async function (eventID) {
+  try {
+    await deleteDoc( fsDoc( fsDb, "events", eventID));
+    console.log(`Event record ${eventID} deleted.`);
+  } catch( e) {
+    console.error(`Error when deleting event record: ${e}`);
+  }
+};
+
+/**
+ * Create test data
+ */
+Event.generateTestData = async function () {
+  let eventRecs = [
+    {
+      eventID: 1,
+      name: "Salsa Saturdays",
+      style:"Salsa",
+      date:"2023-06-01",
+      description:"A fun couple-salsa session.",
+      maxParticipants:20,
+    },
+    {
+      eventID: 2,
+      name: "Bachata with bachelors",
+      style:"Bachata",
+      date:"2023-06-10",
+      description:"A introductory lesson to bachelors for Bachata.",
+      maxParticipants:16,
+    },
+  ];
+
+  await Promise.all( eventRecs.map( d => Event.add( d)));
+  console.log(`${Object.keys( eventRecs).length} event records saved.`);
+};
+/**
+ * Clear database
+ */
+Event.clearData = async function () {
+  if (confirm("Do you really want to delete all records?")) {
+    // retrieve all book documents from Firestore
+    const eventRecs = await Event.retrieveAll();
+    // delete all documents
+    await Promise.all( eventRecs.map( d => Event.destroy( d.eventID)));
+    // ... and then report that they have been deleted
+    console.log(`${Object.values( eventRecs).length} records deleted.`);
+  }
+};
+
+
   export default Event;
