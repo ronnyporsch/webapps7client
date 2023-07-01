@@ -67,3 +67,6 @@ _As a teacher, I would like to ..._
         - constructor for model
         - retrieve use case
         - update use case
+    - Assignment 7C-2:
+        - added auth to firebase
+        - accessControl

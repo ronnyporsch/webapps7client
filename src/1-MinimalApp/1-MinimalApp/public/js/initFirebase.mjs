@@ -19,9 +19,11 @@ const firebaseConfig = {
   appId: "1:143721661478:web:520ee923eeeb6dc26c12e7"
 };
 
-// Initialize Firebase
-initializeApp(firebaseConfig);
-// Initialize Cloud Firestore interface
+// Initialize a Firebase App object only if not already initialized
+const app = (!getApps().length) ? initializeApp( config ) : getApp();
+// Initialize Firebase Authentication
+const auth = getAuth( app);
+// Initialize Firestore interface
 const fsDb = getFirestore();
 
-export { fsDb };
+export { auth, fsDb };

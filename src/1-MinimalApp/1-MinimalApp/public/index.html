@@ -19,19 +19,40 @@
       }
     });
   </script>
+  <style>
+    a.disabled {
+      opacity: 0.4;
+      pointer-events: none;
+      cursor: default;
+    }   
+  </style>
 </head>
-
+<header>
+  <div id="login-management"></div>
+  <h1>Minimal App with Authentication — Public Library</h1>
+</header>
 <body>
   <main>
-
-    <menu>
-      <li><a href="createEvent.html">Create</a> a new Event record</li>
-      <li><a href="retrieveAndListAllEvents.html">Retrieve</a> and list all Event records</li>
-      <li><a href="updateEvent.html">Update</a> a Event record</li>
-      <li><a href="deleteEvent.html">Delete</a> a Event record</li>
-      <li style="margin-top: 1em"><button class="generateTestData" type="button">Generate test data</button></li>
-      <li><button id="clearData" type="button">Clear database</button></li>
-    </menu>
+    <ul role="menubar">
+      <li role="menuitem">
+        <a href="createEvent.html" class="disabled">Create</a> a new book record
+      </li>
+      <li role="menuitem">
+        <a href="retrieveAndListAllEvents.html">Retrieve</a> and list all book records
+      </li>
+      <li role="menuitem">
+        <a href="updateEvent.html" class="disabled">Update</a> a book record
+      </li>
+      <li role="menuitem">
+        <a href="deleteEvent.html" class="disabled">Delete</a> a book record
+      </li>
+      <li role="menuitem">
+        <button class="generateTestData" type="button" disabled="disabled">Generate test data</button>
+      </li>
+      <li role="menuitem">
+        <button id="clearData" type="button" disabled="disabled">Clear test data</button>
+      </li>
+    </ul>
   </main>
 
 </body>
