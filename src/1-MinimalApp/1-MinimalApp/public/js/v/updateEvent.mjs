@@ -4,6 +4,9 @@
  */
 
 import Event from "../m/Event.mjs";
+import { handleAuthentication } from "./accessControl.mjs";
+
+handleAuthentication();
 
 const eventRecords = await Event.retrieveAll();
 

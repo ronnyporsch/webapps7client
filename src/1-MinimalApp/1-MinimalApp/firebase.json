@@ -5,11 +5,8 @@
   },
   "hosting": {
     "public": "public",
-    "site": "js-firebase-minimal",
     "ignore": [
       "firebase.json",
-      "firebase-debug.log",
-      "package-lock.json",
       "**/.*",
       "**/node_modules/**"
     ]

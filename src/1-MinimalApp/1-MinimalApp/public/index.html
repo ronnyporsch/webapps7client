@@ -7,6 +7,7 @@
   <meta name="description" content="A minimal effort web app with plain JS + Firebase." />
   <link rel="icon" href="favicon.ico" />
   <script type="module">
+    import {handleAuthentication} from "./js/v/accessControl.mjs";
     import Event from "./js/m/Event.mjs";
 
     window.addEventListener("load", function () {
@@ -18,20 +19,61 @@
         btn.addEventListener("click", Event.generateTestData);
       }
     });
+    handleAuthentication();
   </script>
+  <style>
+    figure {
+      float: right;
+    }
+
+    a.disabled {
+      opacity: 0.4;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .generateTestData {
+      margin-top: 1em;
+    }
+
+    div#login-management {
+      text-align: right;
+      padding: 1em;
+      background: #fffde9;
+      border: 1px solid #ffbb4c;
+      height: 1em;
+    }
+  </style>
 </head>
+<header>
+  <div id="login-management"></div>
+  <div id="message" hidden="hidden"></div>
+  <h1>Minimal App with Authentication — Public Library</h1>
+</header>
 
 <body>
   <main>
-
-    <menu>
-      <li><a href="createEvent.html">Create</a> a new Event record</li>
-      <li><a href="retrieveAndListAllEvents.html">Retrieve</a> and list all Event records</li>
-      <li><a href="updateEvent.html">Update</a> a Event record</li>
-      <li><a href="deleteEvent.html">Delete</a> a Event record</li>
-      <li style="margin-top: 1em"><button class="generateTestData" type="button">Generate test data</button></li>
-      <li><button id="clearData" type="button">Clear database</button></li>
-    </menu>
+    <div id="login-management"></div>
+    <ul role="menubar">
+      <li role="menuitem">
+        <a href="createEvent.html" class="disabled">Create</a> a new book record
+      </li>
+      <li role="menuitem">
+        <a href="retrieveAndListAllEvents.html">Retrieve</a> and list all book records
+      </li>
+      <li role="menuitem">
+        <a href="updateEvent.html" class="disabled">Update</a> a book record
+      </li>
+      <li role="menuitem">
+        <a href="deleteEvent.html" class="disabled">Delete</a> a book record
+      </li>
+      <li role="menuitem">
+        <button class="generateTestData" type="button" disabled="disabled">Generate test data</button>
+      </li>
+      <li role="menuitem">
+        <button id="clearData" type="button" disabled="disabled">Clear test data</button>
+      </li>
+    </ul>
   </main>
 
 </body>

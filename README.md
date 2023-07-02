@@ -58,6 +58,10 @@ _As a teacher, I would like to ..._
         - delete use case
         - generate test data
         - clear data base
+    - Assignment 7C-2:
+        - Redirection to Sign in/up page 
+        - Email verification with customised page 
+        - Implementation of 404 page
 - @[ruehsflo](https://github.com/ruehsflo)
     - Assignment 7B:
         - created some issues in github
@@ -67,3 +71,7 @@ _As a teacher, I would like to ..._
         - constructor for model
         - retrieve use case
         - update use case
+    - Assignment 7C-2:
+        - Implementation of Sign out
+        - Implementation of user authentication status
+        - Enabling/disabling UI elements in start page based on authentication
