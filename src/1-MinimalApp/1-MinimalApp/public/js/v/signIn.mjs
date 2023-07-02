@@ -1,5 +1,5 @@
 import { auth } from "../initFirebase.mjs";
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.X.X/firebase-auth.js";
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
 
 const formEl = document.forms["Auth"],
   signInBtn = formEl["signIn"];

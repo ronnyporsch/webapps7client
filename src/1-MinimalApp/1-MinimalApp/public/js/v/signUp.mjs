@@ -1,5 +1,5 @@
 import { auth } from "../initFirebase.mjs";
-import { createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.X.X/firebase-auth.js";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
 
 const formEl = document.forms["Auth"],
   signUpBtn = formEl["signUp"];
