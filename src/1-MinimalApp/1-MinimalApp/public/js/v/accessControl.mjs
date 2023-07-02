@@ -1,5 +1,5 @@
 import { auth } from "../initialize.mjs";
-import { onAuthStateChanged, signInAnonymously, signOut } from "https://www.gstatic.com/firebasejs/9.X.X/firebase-auth.js";
+import { onAuthStateChanged, signInAnonymously, signOut } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
 
 
 function handleAuthentication() {
@@ -27,7 +27,7 @@ function handleAuthentication() {
     }
   }
 
-  function handleAuthorization( userStatus, currentPage, email) {
+function handleAuthorization( userStatus, currentPage, email) {
 
     // declare variables for current page and for accessing UI elements
     const divLoginMgmtEl = document.getElementById("login-management"),
@@ -63,4 +63,46 @@ function handleAuthentication() {
         break;
 
     }
-  }
+}
+
+function createSignInAndSignUpUI() {
+    const fragment = document.createDocumentFragment(),
+    linkSignUpEl = document.createElement("a"),
+    linkSignInEl = document.createElement("a"),
+    text = document.createTextNode(" or ");
+    linkSignUpEl.href = "signUp.html";
+    linkSignInEl.href = "signIn.html";
+    linkSignUpEl.textContent = "Sign up";
+    linkSignInEl.textContent = "Sign in";
+    fragment.appendChild( linkSignUpEl);
+    fragment.appendChild( text);
+    fragment.appendChild( linkSignInEl);
+    return fragment;
+}
+
+function createSignOutUI( email, invitation) {
+    const fragment = document.createDocumentFragment(),
+    divEl = document.createElement("div"),
+    buttonEl = document.createElement("button");
+    if (invitation) {
+      const divEl = document.createElement("div");
+      divEl.textContent = "Check your email for instructions to verify your account " + 
+        "and authorize access to operations";
+      fragment.appendChild( divEl);
+    }
+    buttonEl.type = "button";
+    buttonEl.innerText = "Sign Out";
+    buttonEl.addEventListener("click", handleSignOut);
+    divEl.innerText = `${email} `;
+    divEl.appendChild( buttonEl);
+    fragment.appendChild( divEl);
+    return fragment;
+}
+async function handleSignOut() {
+    try {
+      signOut( auth);
+      window.location.pathname = "/index.html";
+    } catch (e) {
+      console.error(`${e.constructor.name}: ${e.message}`);
+    }
+}

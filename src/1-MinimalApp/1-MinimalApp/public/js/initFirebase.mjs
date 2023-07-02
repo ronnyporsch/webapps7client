@@ -3,14 +3,15 @@
  * @author Gerd Wagner
  * @author Juan-Francisco Reyes
  */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore-lite.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
+const config = {
   apiKey: "AIzaSyClVak7MBFHUFdXDTLzgpsZ1_kF8xBQzlU",
   authDomain: "dancetastic-630ca.firebaseapp.com",
   projectId: "dancetastic-630ca",
