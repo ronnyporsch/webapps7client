@@ -1,24 +1,42 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <title>Minimal Web App with JS and Firebase: Sign in</title>
-    <script type="module" src="js/v/signIn.mjs" ></script>
+    <script type="module" src="js/v/signIn.mjs"></script>
+    <style>
+        #message {
+            color: #ff3300;
+            text-align: right;
+            padding: 1em;
+            background: #fff4f4;
+            border: 1px solid #ff7653;
+        }
+    </style>
 </head>
+
 <body>
+    <header>
+        <div id="message" hidden="hidden"></div>
+        <h1>Enter your account</h1>
+        <p>
+            Sign in to enter your account.
+        </p>
+    </header>
     <form id="Auth">
-    <div>
-        <label>Email: <input name="email" type="email"/></label>
-    </div>
-    <div>
-        <label>Password: <input name="password" type="password"/></label>
-    </div>
-    <div>
-        <button type="button" name="signIn">Sign in</button>
-    </div>
+        <div>
+            <label>Email: <input name="email" type="email" /></label>
+        </div>
+        <div>
+            <label>Password: <input name="password" type="password" /></label>
+        </div>
+        <div>
+            <button type="button" name="signIn">Sign in</button>
+        </div>
     </form>
     <p>
-    Or <a href="signUp.html" title="Sign in">sign up</a> to create your account.
+        Or <a href="signUp.html" title="Sign in">sign up</a> to create your account.
     </p>
     <p><a href="resetPassword.html" title="Reset password">Forgot password?</a></p>
 </body>

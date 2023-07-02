@@ -7,6 +7,7 @@
   <meta name="description" content="A minimal effort web app with plain JS + Firebase." />
   <link rel="icon" href="favicon.ico" />
   <script type="module">
+    import {handleAuthentication} from "./js/v/accessControl.mjs";
     import Event from "./js/m/Event.mjs";
 
     window.addEventListener("load", function () {
@@ -20,11 +21,27 @@
     });
   </script>
   <style>
+    figure {
+      float: right;
+    }
+
     a.disabled {
       opacity: 0.4;
       pointer-events: none;
       cursor: default;
-    }   
+    }
+
+    .generateTestData {
+      margin-top: 1em;
+    }
+
+    div#login-management {
+      text-align: right;
+      padding: 1em;
+      background: #fffde9;
+      border: 1px solid #ffbb4c;
+      height: 1em;
+    }
   </style>
 </head>
 <header>
@@ -32,8 +49,10 @@
   <div id="message" hidden="hidden"></div>
   <h1>Minimal App with Authentication — Public Library</h1>
 </header>
+
 <body>
   <main>
+    <div id="login-management"></div>
     <ul role="menubar">
       <li role="menuitem">
         <a href="createEvent.html" class="disabled">Create</a> a new book record
