@@ -45,7 +45,7 @@ function handleAuthorization( userStatus, currentPage, email) {
   // declare variables for current page and for accessing UI elements
   const divLoginMgmtEl = document.getElementById("login-management"),
     startPage = ["/","/index.html"],
-    authorizedPages = startPage.concat(["../retrieveAndListAllEvents.html", "/credits.html", "/C:/Users/flori/Desktop/UNI/Master/2.%20Semester/Web%20Applications/webapps7client/src/1-MinimalApp/1-MinimalApp/public/retrieveAndListAllEvents.html"]);
+    authorizedPages = startPage.concat(["../retrieveAndListAllEvents.html", "/credits.html"]);
   console.log(divLoginMgmtEl);
   switch (userStatus) {
     case "Anonymous":
