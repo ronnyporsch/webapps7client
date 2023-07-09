@@ -128,7 +128,7 @@ class Event {
     }
   }
 
-  static checkDate(date){
+  static checkDate(date) {
     /*
     * TODO: implement correct date validation
     */
@@ -187,6 +187,25 @@ class Event {
 
 }
 
+
+Event.converter = {
+  toFirestore: function (event) {
+    const data = {
+      eventID: parseInt(event.eventID),
+      name: event.name,
+      style: event.style,
+      date: new Date(event.date),
+      description: event.description,
+      maxParticipants: parseInt(event.maxParticipants),
+    };
+    return data;
+  },
+  fromFirestore: function (snapshot, options) {
+    const data = snapshot.data(options);
+    return new Event(data);
+  }
+};
+
 /**
 
 * @param slots: {object}
@@ -194,15 +213,28 @@ class Event {
 */
 Event.add = async function (slots) {
 
-  const eventsCollRef = fsColl(fsDb, "events"),
-    eventDocRef = fsDoc(eventsCollRef, slots.eventID);
-  slots.maxParticipants = parseInt(slots.maxParticipants);
+  let event = null;
+
   try {
-    await setDoc(eventDocRef, slots);
-    console.log(`Event record ${slots.eventID} created.`);
+    event = new Event(slots);
+
+    let validationResult = await Event.checkEventIDasID(event.eventID);
+    if (!validationResult instanceof NoConstraintViolation) throw validationResult;
   } catch (e) {
-    console.error(`Error when adding event record: ${e}`);
+    console.error(`${e.constructor.name}: ${e.message}`);
+    event = null;
   }
+  if (event) {
+    try {
+      const eventDocRef = fsDoc(fsDb, "events", event.eventID).withConverter(Event.converter);
+      await setDoc(eventDocRef, event);
+      console.log(`Event record ${slots.eventID} created.`);
+    } catch (e) {
+      console.error(`${e.constructor.name}: ${e.message} + ${e}`);
+    }
+  }
+
+
 };
 /**
  * loads an event from firestore
@@ -212,52 +244,83 @@ Event.add = async function (slots) {
  */
 
 Event.retrieve = async function (eventID) {
-  let eventDocSn = null;
   try {
-    const eventDocRef = fsDoc(fsDb, "events", eventID);
-    eventDocSn = await getDoc(eventDocRef);
+    const eventRec = (await getDoc( fsDoc(fsDb, "events", eventID)
+      .withConverter( Event.converter))).data();
+    console.log(`Event record "${eventRec.eventID}" retrieved.`);
+    return eventRec;
   } catch (e) {
-    console.error(`Error when retrieving event record: ${e}`);
-    return null;
+    console.error(`Error retrieving event record: ${e}`);
   }
-  const eventRec = eventDocSn.data();
-  return eventRec;
 }
 
 Event.retrieveAll = async function () {
-  let eventsQrySn = null;
+  if (!order) order = "eventID";
+  const eventsCollRef = fsColl( fsDb, "events"),
+    q = fsQuery( eventsCollRef, orderBy( order));
   try {
-    const eventCollRef = fsColl(fsDb, "events");
-    eventsQrySn = await getDocs(eventCollRef);
+    const eventRecs = (await getDocs( q.withConverter( Event.converter))).docs.map( d => d.data());
+    console.log(`${eventRecs.length} event records retrieved ${order ? "ordered by " + order : ""}`);
+    return eventRecs;
   } catch (e) {
-    console.error(`Error when retrieving event records: ${e}`);
-    return null;
+    console.error(`Error retrieving event records: ${e}`);
   }
-  const eventDocs = eventsQrySn.docs,
-    eventRecs = eventDocs.map(d => d.data());
-  console.log(`${eventRecs.length} event records retrieved.`);
-  return eventRecs;
 }
 
 Event.update = async function (slots) {
-  const updSlots = {};
+  let noConstraintViolated = true,
+    validationResult = null,
+    eventBeforeUpdate = null;
+  const eventDocRef = fsDoc(fsDb, "events", slots.eventID).withConverter(Event.converter),
+    updatedSlots = {};
+  try {
+    // retrieve up-to-date book record
+    const eventDocSn = await getDoc(eventDocRef);
+    eventBeforeUpdate = eventDocSn.data();
+  } catch (e) {
+    console.error(`${e.constructor.name}: ${e.message}`);
+  }
 
-  const eventRec = await Event.retrieve(slots.eventID);
-  // convert from string to integer
-  if (slots.maxParticipants) slots.maxParticipants = parseInt(slots.maxParticipants);
-  // update only those slots that have changed
-  if (eventRec.name !== slots.name) updSlots.name = slots.name;
-  if (eventRec.style !== slots.style) updSlots.style = slots.style;
-  if (eventRec.date !== slots.date) updSlots.date = slots.date;
-  if (eventRec.description !== slots.description) updSlots.description = slots.description;
-  if (eventRec.maxParticipants !== slots.maxParticipants) updSlots.maxParticipants = slots.maxParticipants;
-  if (Object.keys(updSlots).length > 0) {
-    try {
-      const eventDocRef = fsDoc(fsDb, "events", slots.eventID);
-      await updateDoc(eventDocRef, updSlots);
-      console.log(`Event record ${slots.eventID} modified.`);
-    } catch (e) {
-      console.error(`Error when updating event record: ${e}`);
+  try {
+    if (eventBeforeUpdate.name !== slots.name) {
+      validationResult = Event.checkName(slots.name);
+      if (validationResult instanceof NoConstraintViolation) updatedSlots.name = slots.name;
+      else throw validationResult;
+    }
+    if (eventBeforeUpdate.style !== slots.style) {
+      validationResult = Event.checkStyle(slots.style);
+      if (validationResult instanceof NoConstraintViolation) updatedSlots.style = slots.style;
+      else throw validationResult;
+    }
+    if (eventBeforeUpdate.date !== slots.date) {
+      /*
+      * TODO: check date properly
+      */
+      validationResult = Event.checkDate(slots.date);
+      if (validationResult instanceof NoConstraintViolation) updatedSlots.date = slots.date;
+      else throw validationResult;
+    }
+    if (eventBeforeUpdate.description !== slots.description) {
+      validationResult = Event.checkDescription(slots.description);
+      if (validationResult instanceof NoConstraintViolation) updatedSlots.description = slots.description;
+      else throw validationResult;
+    }
+    if (eventBeforeUpdate.maxParticipants !== parseInt(slots.maxParticipants)) {
+      validationResult = Event.checkMaxParticipants(slots.maxParticipants);
+      if (validationResult instanceof NoConstraintViolation) updatedSlots.maxParticipants = slots.maxParticipants;
+      else throw validationResult;
+    }
+  } catch (e){
+    noConstraintViolated = false;
+    console.error(`${e.constructor.name}: ${e.message}`);
+  }
+  if (noConstraintViolated) {
+    const updatedProperties = Object.keys(updatedSlots);
+    if (updatedProperties.length) {
+      await updateDoc(bookDocRef, updatedSlots);
+      console.log(`Property(ies) "${updatedProperties.toString()}" modified for event record "${slots.eventID}"`);
+    } else {
+      console.log(`No property value changed for event record "${slots.eventID}"!`);
     }
   }
 }
@@ -279,27 +342,15 @@ Event.destroy = async function (eventID) {
  * Create test data
  */
 Event.generateTestData = async function () {
-  let eventRecs = [
-    {
-      eventID: "1",
-      name: "Salsa Saturdays",
-      style: "Salsa",
-      date: "2023-06-01",
-      description: "A fun couple-salsa session.",
-      maxParticipants: 20,
-    },
-    {
-      eventID: "2",
-      name: "Bachata with bachelors",
-      style: "Bachata",
-      date: "2023-06-10",
-      description: "A introductory lesson to bachelors for Bachata.",
-      maxParticipants: 16,
-    },
-  ];
-
-  await Promise.all(eventRecs.map(d => Event.add(d)));
-  console.log(`${Object.keys(eventRecs).length} event records saved.`);
+  try {
+    console.log("Generating test data...");
+    const response = await fetch( "../../test-data/events.json");
+    const eventRecs = await response.json();
+    await Promise.all( eventRecs.map( d => Event.add( d)));
+    console.log(`${eventRecs.length} events saved.`);
+  } catch (e) {
+    console.error(`${e.constructor.name}: ${e.message}`);
+  }
 };
 /**
  * Clear database
@@ -307,11 +358,15 @@ Event.generateTestData = async function () {
 Event.clearData = async function () {
   if (confirm("Do you really want to delete all records?")) {
 
-    const eventRecs = await Event.retrieveAll();
-    // delete all documents
-    await Promise.all(eventRecs.map(d => Event.destroy(d.eventID)));
-    // ... and then report that they have been deleted
-    console.log(`${Object.values(eventRecs).length} records deleted.`);
+    try {
+      console.log("Clearing test data...");
+      const eventsCollRef = fsColl( fsDb, "events");
+      const eventsQrySn = (await getDocs( eventsCollRef));
+      await Promise.all( eventsQrySn.docs.map( d => Event.destroy( d.id)))
+      console.log(`${eventsQrySn.docs.length} events deleted.`);
+    } catch (e) {
+      console.error(`${e.constructor.name}: ${e.message}`);
+    }
   }
 };
 

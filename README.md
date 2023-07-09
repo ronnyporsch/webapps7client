@@ -62,6 +62,8 @@ _As a teacher, I would like to ..._
         - Redirection to Sign in/up page 
         - Email verification with customised page 
         - Implementation of 404 page
+    - Assignment 7C-3:
+        - Constraint Validation with Security Rules
 - @[ruehsflo](https://github.com/ruehsflo)
     - Assignment 7B:
         - created some issues in github
@@ -75,3 +77,6 @@ _As a teacher, I would like to ..._
         - Implementation of Sign out
         - Implementation of user authentication status
         - Enabling/disabling UI elements in start page based on authentication
+    - Assignment 7C-3:
+        - Data Validation
+        - DB-UI synchronization
