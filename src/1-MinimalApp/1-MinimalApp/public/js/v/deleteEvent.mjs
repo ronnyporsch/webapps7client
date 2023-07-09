@@ -32,3 +32,21 @@ const formEl = document.forms["Event"],
       selectEventEl.remove(selectEventEl.selectedIndex);
     }
   });
+/******************************************************************
+ Add event listeners for the delete/submit button
+ ******************************************************************/
+// set an event handler for the delete button
+deleteButton.addEventListener("click", async function () {
+  const eventID = selectEventEl.value;
+  if (!eventID) return;
+  if (confirm("Do you really want to delete this event record?")) {
+    await Event.destroy( eventID);
+    selectEventEl.remove( selectEventEl.selectedIndex);
+  }
+});
+
+// DB-UI sync on view layer
+
+let cancelListener = null;
+if (cancelListener) cancelListener();
+cancelListener = await Event.observeChanges( eventKey);

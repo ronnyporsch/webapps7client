@@ -11,7 +11,7 @@ import {
   NoConstraintViolation, MandatoryValueConstraintViolation, RangeConstraintViolation, UniquenessConstraintViolation
 }
   from "../../lib/errorTypes.mjs";
-
+import { createModalFromChange } from "../../lib/util.mjs";
 
 /**
  * @constructor
@@ -370,5 +370,26 @@ Event.clearData = async function () {
   }
 };
 
+
+Event.observeChanges = async function (eventID) {
+  try {
+    // listen document changes, returning a snapshot (snapshot) on every change
+    const eventDocRef = fsDoc( fsDb, "events", eventID).withConverter( Event.converter);
+    const eventRec = (await getDoc( eventDocRef)).data();
+    return onSnapshot( eventDocRef, function (snapshot) {
+      // create object with original document data
+      const originalData = { itemName: "event", description: `${eventRec.name} (ID: ${eventRec.eventID })`};
+      if (!snapshot.data()) { // removed: if snapshot has not data
+        originalData.type = "REMOVED";
+        createModalFromChange( originalData); // invoke modal window reporting change of original data
+      } else if (JSON.stringify( eventRec) !== JSON.stringify( snapshot.data())) {
+        originalData.type = "MODIFIED";
+        createModalFromChange( originalData); // invoke modal window reporting change of original data
+      }
+    });
+  } catch (e) {
+    console.error(`${e.constructor.name} : ${e.message}`);
+  }
+}
 
 export default Event;
