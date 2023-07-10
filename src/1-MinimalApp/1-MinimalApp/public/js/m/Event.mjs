@@ -8,7 +8,7 @@ import { collection as fsColl, deleteDoc, doc as fsDoc, getDoc, getDocs, setDoc,
 import { isNonEmptyString, isIntegerOrIntegerString }
   from "../../lib/util.mjs";
 import {
-  NoConstraintViolation, MandatoryValueConstraintViolation, RangeConstraintViolation, UniquenessConstraintViolation
+  NoConstraintViolation, MandatoryValueConstraintViolation, RangeConstraintViolation, UniquenessConstraintViolation, IntervalConstraintViolation
 }
   from "../../lib/errorTypes.mjs";
 import Enumeration from "../../lib/Enumeration.mjs";
@@ -137,15 +137,18 @@ class Event {
   }
 
   static checkDate(date) {
-    /*
-    * TODO: implement correct date validation
-    */
-    if (!date) return new MandatoryValueConstraintViolation("A date must be provided!");
-    else if (!isNonEmptyString(date)) {
-      return new RangeConstraintViolation("The date must be a non-empty string!");
+    const LOWER_BOUND_DATE = new Date("1895-12-28");
+    var validationResult = null;
+    if (!date) {
+      validationResult = new MandatoryValueConstraintViolation("A date must be provided!");
+    } else if ( !Date.parse(date)) {
+      validationResult = new RangeConstraintViolation("The date must be a date in format YYYY-MM-DD!");;
+    } else if ((new Date(date) < LOWER_BOUND_DATE)) {
+      validationResult = new IntervalConstraintViolation("The date has to be later or equal than 1895-12-28!");
     } else {
-      return new NoConstraintViolation();
+      validationResult = new NoConstraintViolation();
     }
+    return validationResult;
   }
 
   get description() {
@@ -301,9 +304,6 @@ Event.update = async function (slots) {
       else throw validationResult;
     }
     if (eventBeforeUpdate.date !== slots.date) {
-      /*
-      * TODO: check date properly
-      */
       validationResult = Event.checkDate(slots.date);
       if (validationResult instanceof NoConstraintViolation) updatedSlots.date = slots.date;
       else throw validationResult;
