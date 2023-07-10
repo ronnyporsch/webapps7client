@@ -3,7 +3,7 @@
  * @author Florian Rühs
  */
 import { fsDb } from "../initFirebase.mjs";
-import { collection as fsColl, deleteDoc, doc as fsDoc, getDoc, getDocs, setDoc, updateDoc }
+import { collection as fsColl, deleteDoc, doc as fsDoc, getDoc, getDocs, setDoc, updateDoc, query as fsQuery, orderBy }
   from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore-lite.js";
 import { isNonEmptyString, isIntegerOrIntegerString }
   from "../../lib/util.mjs";
@@ -12,7 +12,6 @@ import {
 }
   from "../../lib/errorTypes.mjs";
 import Enumeration from "../../lib/Enumeration.mjs";
-import { createModalFromChange } from "../../lib/util.mjs";
 
 /**
  * @constructor
@@ -47,6 +46,7 @@ class Event {
   };
 
   static checkEventID(eventID) {
+    console.log("check id");
     if (!eventID) return new NoConstraintViolation();
     else if (!isIntegerOrIntegerString(eventID) || parseInt(eventID) < 1) {
       return new RangeConstraintViolation("The eventID must be a positive integer!");
@@ -88,6 +88,7 @@ class Event {
   }
 
   static checkName(name) {
+    console.log("check name");
     if (!name) return new MandatoryValueConstraintViolation("A name must be provided!");
     else if (!isNonEmptyString(name)) {
       return new RangeConstraintViolation("The name must be a non-empty string!");
@@ -110,6 +111,7 @@ class Event {
   }
 
   static checkStyle(style) {
+    console.log("check style");
     if (!style) {
       return new MandatoryValueConstraintViolation(
         "A style must be provided!");
@@ -137,6 +139,7 @@ class Event {
   }
 
   static checkDate(date) {
+    console.log("check date");
     const LOWER_BOUND_DATE = new Date("1895-12-28");
     var validationResult = null;
     if (!date) {
@@ -165,6 +168,7 @@ class Event {
   }
 
   static checkDescription(description) {
+    console.log("check description");
     if (!description) return new MandatoryValueConstraintViolation("A description must be provided!");
     else if (!isNonEmptyString(description)) {
       return new RangeConstraintViolation("The description must be a non-empty string!");
@@ -265,7 +269,7 @@ Event.retrieve = async function (eventID) {
   }
 }
 
-Event.retrieveAll = async function () {
+Event.retrieveAll = async function (order) {
   if (!order) order = "eventID";
   const eventsCollRef = fsColl( fsDb, "events"),
     q = fsQuery( eventsCollRef, orderBy( order));

@@ -1,28 +1,40 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <title>Minimal Web App with JS and Firebase: Retrieve and List</title>
-  <link rel="icon" href="favicon.ico"/>
+  <link rel="icon" href="favicon.ico" />
   <script src="js/v/retrieveAndListAllEvents.mjs" type="module"></script>
 </head>
+
 <body>
-<header>
-  <div id="login-management"></div>
-  <div id="message" hidden="hidden"></div>
-  <h1>Minimal App with Authentication — Public Library</h1>
-</header>
-<main>
+  <header>
+    <div id="login-management"></div>
+    <div id="message" hidden="hidden"></div>
+    <h1>Minimal App with Authentication — Public Library</h1>
+  </header>
+  <main>
+    <div>
+      <label>Ordered by:
+        <select>
+          <option value="eventID">ID</option>
+          <option value="name">Title</option>
+          <option value="date">Date</option>
+        </select>
+      </label>
+    </div>
+    <progress hidden="hidden" max="100">%</progress>
     <table id="events">
       <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Style</th>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Maximum of participants</th>
-      </tr>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Style</th>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Maximum of participants</th>
+        </tr>
       </thead>
       <tbody></tbody>
     </table>
@@ -31,5 +43,5 @@
   <footer>
     <a href="index.html">« Back to main menu</a>
   </footer>
-  </body>
-  </html>
+</body>
+</html>
