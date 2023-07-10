@@ -63,7 +63,7 @@ _As a teacher, I would like to ..._
         - Email verification with customised page 
         - Implementation of 404 page
     - Assignment 7C-3:
-        - Constraint Validation with Security Rules
+        - DB-UI synchronization
 - @[ruehsflo](https://github.com/ruehsflo)
     - Assignment 7B:
         - created some issues in github
@@ -79,4 +79,4 @@ _As a teacher, I would like to ..._
         - Enabling/disabling UI elements in start page based on authentication
     - Assignment 7C-3:
         - Data Validation
-        - DB-UI synchronization
+        - Constraint Validation with Security Rules
