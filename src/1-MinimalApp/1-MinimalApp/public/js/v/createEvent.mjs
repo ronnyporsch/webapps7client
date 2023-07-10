@@ -4,25 +4,24 @@
  */
 
 import { handleAuthentication } from "./accessControl.mjs";
-import Event from "../m/Event.mjs";
-import { showProgressBar, hideProgressBar } from "../../lib/util.mjs";
+import Event, { StyleEL } from "../m/Event.mjs";
+import { showProgressBar, hideProgressBar, fillSelectWithOptions } from "../../lib/util.mjs";
 
 handleAuthentication();
 
 const formEl = document.forms["Event"],
   createButton = formEl["commit"],
+  styleSelEl = formEl["style"],
   progressEl = document.querySelector("progress");
 
 
+  fillSelectWithOptions(styleSelEl, StyleEL.labels);
   formEl["eventID"].addEventListener("input", function () {
     // do not yet check the ID constraint, only before commit
     formEl["eventID"].setCustomValidity( Event.checkEventID( formEl["eventID"].value).message);
   });
   formEl["name"].addEventListener("input", function () {
     formEl["name"].setCustomValidity( Event.checkName( formEl["name"].value).message);
-  });
-  formEl["style"].addEventListener("input", function () {
-    formEl["style"].setCustomValidity( Event.checkStyle( formEl["style"].value).message);
   });
   formEl["date"].addEventListener("input", function () {
     formEl["date"].setCustomValidity( Event.checkDate( formEl["date"].value).message);

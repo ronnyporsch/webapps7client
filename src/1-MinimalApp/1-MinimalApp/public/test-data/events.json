@@ -2,7 +2,7 @@
     {
       "eventID": "1",
       "name": "Salsa Saturdays",
-      "style": "Salsa",
+      "style": 1,
       "date": "2023-06-01",
       "description": "A fun couple-salsa session.",
       "maxParticipants": 20
@@ -10,7 +10,7 @@
     {
       "eventID": "2",
       "name": "Bachata with bachelors",
-      "style": "Bachata",
+      "style": 2,
       "date": "2023-06-10",
       "description": "A introductory lesson to bachelors for Bachata.",
       "maxParticipants": 16

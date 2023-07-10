@@ -11,6 +11,7 @@ import {
   NoConstraintViolation, MandatoryValueConstraintViolation, RangeConstraintViolation, UniquenessConstraintViolation
 }
   from "../../lib/errorTypes.mjs";
+import Enumeration from "../../lib/Enumeration.mjs";
 import { createModalFromChange } from "../../lib/util.mjs";
 
 /**
@@ -20,6 +21,7 @@ import { createModalFromChange } from "../../lib/util.mjs";
  * TODO: change style to enumeration, add participants
  */
 
+const StyleEL = new Enumeration(["Salsa", "Bachata", "Kizomba", "Zouk"]);
 class Event {
 
   constructor({ eventID, name, style, date, description, maxParticipants }) {
@@ -108,10 +110,16 @@ class Event {
   }
 
   static checkStyle(style) {
-    /*
-    * TODO: checkStyle
-    */
-    return NoConstraintViolation;
+    if (!style) {
+      return new MandatoryValueConstraintViolation(
+        "A style must be provided!");
+    } else if (!isIntegerOrIntegerString( style) ||
+        parseInt( style) < 1 || parseInt( style) > StyleEL.MAX) {
+      return new RangeConstraintViolation(
+        `Invalid value for style: ${style}`);
+    } else {
+      return new NoConstraintViolation();
+    }
   }
 
 
@@ -287,7 +295,7 @@ Event.update = async function (slots) {
       if (validationResult instanceof NoConstraintViolation) updatedSlots.name = slots.name;
       else throw validationResult;
     }
-    if (eventBeforeUpdate.style !== slots.style) {
+    if (!eventBeforeUpdate.style.isEqualTo(slots.style) ) {
       validationResult = Event.checkStyle(slots.style);
       if (validationResult instanceof NoConstraintViolation) updatedSlots.style = slots.style;
       else throw validationResult;
@@ -392,4 +400,5 @@ Event.observeChanges = async function (eventID) {
   }
 }
 
-export default Event;
+export default Event; 
+export {StyleEL};

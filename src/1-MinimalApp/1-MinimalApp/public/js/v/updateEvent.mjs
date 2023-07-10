@@ -3,7 +3,7 @@
  * @author Florian Rühs
  */
 
-import Event from "../m/Event.mjs";
+import Event, { StyleEL } from "../m/Event.mjs";
 import { handleAuthentication } from "./accessControl.mjs";
 import { fillSelectWithOptions } from "../../lib/util.mjs";
 
@@ -13,28 +13,10 @@ const eventRecords = await Event.retrieveAll();
 
 const formEl = document.forms["Event"],
     updateButton = formEl["commit"],
-    selectEventEl = formEl["selectEvent"];
+    selectEventEl = formEl["selectEvent"],
+    styleEl = formEL["style"];
 
-formEl["eventID"].addEventListener("input", function () {
-    // do not yet check the ID constraint, only before commit
-    formEl["eventID"].setCustomValidity(Event.checkEventID(formEl["eventID"].value).message);
-});
-formEl["name"].addEventListener("input", function () {
-    formEl["name"].setCustomValidity(Event.checkName(formEl["name"].value).message);
-});
-formEl["style"].addEventListener("input", function () {
-    formEl["style"].setCustomValidity(Event.checkStyle(formEl["style"].value).message);
-});
-formEl["date"].addEventListener("input", function () {
-    formEl["date"].setCustomValidity(Event.checkDate(formEl["date"].value).message);
-});
-formEl["description"].addEventListener("input", function () {
-    formEl["description"].setCustomValidity(Event.checkDescription(formEl["description"].value).message);
-});
-formEl["maxParticipants"].addEventListener("input", function () {
-    formEl["maxParticipants"].setCustomValidity(Event.checkMaxParticipants(formEl["maxParticipants"].value).message);
-});
-
+let cancelListener = null;
 /***************************************************************
  Set up (choice) widgets
  ***************************************************************/
@@ -50,11 +32,30 @@ selectEventEl.addEventListener("change", async function () {
             // delete custom validation error message which may have been set before
             formEl[field].setCustomValidity("");
         }
+        if (cancelListener) cancelListener();
+        // add listener to selected book, returning the function to cancel listener
+        cancelListener = await Event.observeChanges( eventKey);
     } else {
         formEl.reset();
     }
 });
-
+fillSelectWithOptions( styleEl, StyleEL.labels);
+formEl["name"].addEventListener("input", function () {
+    formEl["name"].setCustomValidity(Event.checkName(formEl["name"].value).message);
+});
+styleEl.addEventListener("change", function () {
+    styleEl.setCustomValidity(
+      (!styleEl.value) ? "A value must be selected!":"" );
+  });
+formEl["date"].addEventListener("input", function () {
+    formEl["date"].setCustomValidity(Event.checkDate(formEl["date"].value).message);
+});
+formEl["description"].addEventListener("input", function () {
+    formEl["description"].setCustomValidity(Event.checkDescription(formEl["description"].value).message);
+});
+formEl["maxParticipants"].addEventListener("input", function () {
+    formEl["maxParticipants"].setCustomValidity(Event.checkMaxParticipants(formEl["maxParticipants"].value).message);
+});
 updateButton.addEventListener("click", async function () {
     const formEl = document.forms["Event"],
         selectEventEl = formEl["selectEvent"],
@@ -99,3 +100,7 @@ updateButton.addEventListener("click", async function () {
 formEl.addEventListener("submit", function (e) {
     e.preventDefault();
 });
+// set event to cancel DB listener when the browser window/tab is closed
+window.addEventListener("beforeunload", function () {
+    if (cancelListener) cancelListener();
+  });
