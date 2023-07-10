@@ -18,7 +18,7 @@ const formEl = document.forms["Event"],
   deleteButton = formEl["commit"],
   selectEventEl = formEl["selectEvent"];
 
-  fillSelectWithOptions( eventRecords, selectEventEl, "eventID", "name");
+  fillSelectWithOptions( eventRecords, selectEventEl,{ valueProp: "eventID", displayProp:"name"});
 
   /********************************************************************
    Add further event listeners, especially for the delete/submit button

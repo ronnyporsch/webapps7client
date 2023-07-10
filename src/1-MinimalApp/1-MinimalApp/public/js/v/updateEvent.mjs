@@ -14,13 +14,13 @@ const eventRecords = await Event.retrieveAll();
 const formEl = document.forms["Event"],
     updateButton = formEl["commit"],
     selectEventEl = formEl["selectEvent"],
-    styleEl = formEL["style"];
+    styleEl = formEl["style"];
 
 let cancelListener = null;
 /***************************************************************
  Set up (choice) widgets
  ***************************************************************/
-fillSelectWithOptions(eventRecords, selectEventEl, "eventID", "name");
+fillSelectWithOptions(eventRecords, selectEventEl, {valueProp: "eventID", displayProp: "name"});
 
 selectEventEl.addEventListener("change", async function () {
     const eventKey = selectEventEl.value;

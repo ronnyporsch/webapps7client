@@ -20,7 +20,7 @@ import Enumeration from "../../lib/Enumeration.mjs";
  * TODO: change style to enumeration, add participants
  */
 
-const StyleEL = new Enumeration(["Salsa", "Bachata", "Kizomba", "Zouk"]);
+const StyleEL = new Enumeration({"Salsa":"Salsa","Bachata":"Bachata", "Kizomba":"Kizomba", "Zouk":"Zouk"});
 class Event {
 
   constructor({ eventID, name, style, date, description, maxParticipants }) {
@@ -38,6 +38,7 @@ class Event {
 
   set eventID(eventID) {
     const validationResult = Event.checkEventID(eventID);
+    console.log(validationResult);
     if (validationResult instanceof NoConstraintViolation) {
       this.__eventID = eventID;
     } else {
@@ -46,7 +47,6 @@ class Event {
   };
 
   static checkEventID(eventID) {
-    console.log("check id");
     if (!eventID) return new NoConstraintViolation();
     else if (!isIntegerOrIntegerString(eventID) || parseInt(eventID) < 1) {
       return new RangeConstraintViolation("The eventID must be a positive integer!");
@@ -57,6 +57,7 @@ class Event {
 
   static async checkEventIDasID(eventID) {
     let validationResult = Event.checkEventID(eventID);
+    console.log(validationResult);
     if ((validationResult instanceof NoConstraintViolation)) {
       if (!eventID) {
         validationResult = new MandatoryValueConstraintViolation(
@@ -80,6 +81,7 @@ class Event {
 
   set name(name) {
     const validationResult = Event.checkName(name);
+    console.log(validationResult);
     if (validationResult instanceof NoConstraintViolation) {
       this.__name = name;
     } else {
@@ -88,7 +90,6 @@ class Event {
   }
 
   static checkName(name) {
-    console.log("check name");
     if (!name) return new MandatoryValueConstraintViolation("A name must be provided!");
     else if (!isNonEmptyString(name)) {
       return new RangeConstraintViolation("The name must be a non-empty string!");
@@ -103,7 +104,9 @@ class Event {
 
   set style(style) {
     const validationResult = Event.checkStyle(style);
+    console.log(validationResult);
     if (validationResult instanceof NoConstraintViolation) {
+      console.log("set style");
       this.__style = style;
     } else {
       throw validationResult;
@@ -111,7 +114,6 @@ class Event {
   }
 
   static checkStyle(style) {
-    console.log("check style");
     if (!style) {
       return new MandatoryValueConstraintViolation(
         "A style must be provided!");
@@ -131,6 +133,7 @@ class Event {
 
   set date(date) {
     const validationResult = Event.checkDate(date);
+    console.log(validationResult);
     if (validationResult instanceof NoConstraintViolation) {
       this.__date = date;
     } else {
@@ -139,7 +142,6 @@ class Event {
   }
 
   static checkDate(date) {
-    console.log("check date");
     const LOWER_BOUND_DATE = new Date("1895-12-28");
     var validationResult = null;
     if (!date) {
@@ -160,6 +162,7 @@ class Event {
 
   set description(description) {
     const validationResult = Event.checkDescription(description);
+    console.log(validationResult);
     if (validationResult instanceof NoConstraintViolation) {
       this.__description = description;
     } else {
@@ -168,7 +171,6 @@ class Event {
   }
 
   static checkDescription(description) {
-    console.log("check description");
     if (!description) return new MandatoryValueConstraintViolation("A description must be provided!");
     else if (!isNonEmptyString(description)) {
       return new RangeConstraintViolation("The description must be a non-empty string!");
@@ -182,6 +184,7 @@ class Event {
 
   set maxParticipants(maxP) {
     const validationResult = Event.checkMaxParticipants(maxP);
+    console.log(validationResult);
     if (validationResult instanceof NoConstraintViolation) {
       this.__maxParticipants = maxP;
     } else {
