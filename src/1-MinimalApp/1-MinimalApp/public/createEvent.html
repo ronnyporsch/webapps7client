@@ -9,9 +9,11 @@
 </head>
 <header>
     <div id="login-management"></div>
+    <div id="modal-window"></div>
     <div id="message" hidden="hidden"></div>
     <h1>Minimal App with Authentication — Public Library</h1>
 </header>
+
 <body>
     <header>
         <h1>Create a new event record</h1>
@@ -20,12 +22,15 @@
         <form id="Event">
             <div><label>ID: <input name="eventID" /></label></div>
             <div><label>Name: <input name="name" /></label></div>
-            <div><label>Style: <input name="style" /></label></div>
+            <div><label>Style:
+                <select name="style"></select>
+              </label></div>
             <div><label>Date: <input name="date" type="date" /></label></div>
             <div><label>Description: <input name="description" /></label></div>
             <div><label>Maximum of participants: <input name="maxParticipants" /></label></div>
             <div>
                 <button name="commit" type="button">Create</button>
+                <progress hidden="hidden" max="100">%</progress>
             </div>
         </form>
     </main>
