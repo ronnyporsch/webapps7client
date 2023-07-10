@@ -3,7 +3,7 @@
  * @author Florian Rühs
  */
 
-import Event from "../m/Event.mjs";
+import Event, { StyleEL } from "../m/Event.mjs";
 import { handleAuthentication } from "./accessControl.mjs";
 import { showProgressBar, hideProgressBar } from "../../lib/util.mjs";
 
@@ -29,7 +29,7 @@ async function retrieveAndListAllEvents(order) {
     let row = tableBodyEl.insertRow();
     row.insertCell(-1).textContent = eventRec.eventID;
     row.insertCell(-1).textContent = eventRec.name;
-    row.insertCell(-1).textContent = eventRec.style;
+    row.insertCell(-1).textContent = StyleEL.labels(eventRec.style - 1);
     row.insertCell(-1).textContent = eventRec.date;
     row.insertCell(-1).textContent = eventRec.description;
     row.insertCell(-1).textContent = eventRec.maxParticipants;
